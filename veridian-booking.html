@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Veridian — Salon & Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EFE6;
+    --cream-soft: #FAF6EE;
+    --cream-deep: #ECE3D4;
+    --ink: #1F2922;
+    --ink-soft: #5A6058;
+    --ink-faint: #8A8F86;
+    --sage: #6B7A5E;
+    --sage-deep: #4A5645;
+    --sage-light: #BFC8B4;
+    --clay: #B8654A;
+    --clay-deep: #9A4F38;
+    --line: #D9CFBE;
+    --line-soft: #E7DFCE;
+    --shadow-soft: 0 1px 2px rgba(31,41,34,0.04), 0 8px 24px rgba(31,41,34,0.06);
+    --shadow-lift: 0 2px 6px rgba(31,41,34,0.06), 0 18px 40px rgba(31,41,34,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body { min-height: 100vh; overflow-x: hidden; }
+
+  /* Typography */
+  .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 360;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+  .display em {
+    font-style: italic;
+    font-weight: 320;
+    color: var(--sage-deep);
+  }
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .serif-num {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: "opsz" 144;
+    font-weight: 350;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 239, 230, 0.85);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--sage-deep);
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+  .brand-mark::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--cream);
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    transform: rotate(45deg);
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    font-variation-settings: "opsz" 144;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  nav a {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    transition: color .25s ease;
+  }
+  nav a:hover { color: var(--ink); }
+  nav a.active { color: var(--ink); }
+  nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 1px;
+    background: var(--sage-deep);
+  }
+  .header-cta {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform .2s ease, background .25s ease;
+  }
+  .header-cta:hover { background: var(--sage-deep); transform: translateY(-1px); }
+
+  /* Views container */
+  main { max-width: 1280px; margin: 0 auto; padding: 0 32px 96px; }
+  .view { display: none; animation: viewIn .55s cubic-bezier(.2,.7,.2,1); }
+  .view.active { display: block; }
+  @keyframes viewIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== Landing ===== */
+  .hero {
+    padding: 72px 0 64px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+    position: relative;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero .eyebrow { margin-bottom: 24px; }
+  .hero h1 {
+    font-size: clamp(48px, 7vw, 88px);
+    margin-bottom: 28px;
+  }
+  .hero p.lead {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .hero-cta-row { display: flex; gap: 14px; align-items: center; }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 16px 30px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background .25s ease, transform .2s ease;
+  }
+  .btn-primary:hover { background: var(--sage-deep); transform: translateY(-1px); }
+  .btn-primary svg { transition: transform .3s ease; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 15px 28px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .btn-ghost:hover { border-color: var(--ink); background: rgba(31,41,34,0.03); }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 220px 220px 32px 32px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #C5C9B2 0%, #8A9277 60%, #4A5645 100%);
+    box-shadow: var(--shadow-lift);
+  }
+  .hero-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), transparent 40%),
+      radial-gradient(circle at 70% 80%, rgba(184,101,74,0.25), transparent 50%);
+  }
+  .hero-visual svg.botanical {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.55;
+  }
+  .hero-stats {
+    position: absolute;
+    bottom: 28px;
+    left: 28px;
+    right: 28px;
+    background: rgba(245,239,230,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .hero-stat { text-align: left; }
+  .hero-stat .num {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .hero-stat .lbl {
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 4px;
+  }
+
+  /* Categories preview */
+  .categories-preview {
+    padding: 56px 0 24px;
+    border-top: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .categories-preview h2 {
+    font-size: 32px;
+    max-width: 280px;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line-soft);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .cat-tile {
+    background: var(--cream);
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+    transition: background .3s ease;
+    min-height: 180px;
+  }
+  .cat-tile:hover { background: var(--cream-soft); }
+  .cat-tile svg { width: 36px; height: 36px; color: var(--sage-deep); }
+  .cat-tile .cat-name {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 360;
+    margin-top: auto;
+  }
+  .cat-tile .cat-count {
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ===== Booking flow header ===== */
+  .booking-top {
+    padding: 40px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 40px;
+  }
+  .booking-top-text h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    margin-bottom: 8px;
+  }
+  .booking-top-text p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 480px;
+  }
+  .steps {
+    display: flex;
+    gap: 0;
+    align-items: center;
+  }
+  .step-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: 'Fraunces', serif;
+    position: relative;
+    transition: all .3s ease;
+  }
+  .step-dot.done {
+    background: var(--sage-deep);
+    border-color: var(--sage-deep);
+    color: var(--cream);
+  }
+  .step-dot.current {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--cream);
+    transform: scale(1.15);
+  }
+  .step-line {
+    width: 28px;
+    height: 1px;
+    background: var(--line);
+    transition: background .3s ease;
+  }
+  .step-line.done { background: var(--sage-deep); }
+
+  /* ===== Step 1: Services ===== */
+  .services-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .filter-side {
+    position: sticky;
+    top: 100px;
+  }
+  .filter-side h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .filter-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .filter-list li {
+    padding: 12px 0;
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--ink-faint);
+    font-weight: 360;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color .25s ease, padding-left .25s ease;
+  }
+  .filter-list li:hover { color: var(--ink); padding-left: 4px; }
+  .filter-list li.active { color: var(--ink); padding-left: 4px; }
+  .filter-list li.active::before {
+    content: "—";
+    margin-right: 6px;
+    color: var(--clay);
+  }
+  .filter-list li .count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    background: var(--cream-deep);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .service-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    padding: 28px;
+    cursor: pointer;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 240px;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--sage-light);
+  }
+  .service-card .svc-icon {
+    width: 28px; height: 28px;
+    color: var(--sage-deep);
+    opacity: 0.8;
+  }
+  .service-card .svc-cat {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 500;
+  }
+  .service-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 360;
+    line-height: 1.15;
+    margin-top: -4px;
+  }
+  .service-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .service-card .svc-meta {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .svc-meta .price {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 400;
+  }
+  .svc-meta .duration {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .service-card.selected {
+    border-color: var(--sage-deep);
+    background: #EFE9DC;
+  }
+
+  /* ===== Step 2: Therapists ===== */
+  .therapist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .any-card {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    background: linear-gradient(100deg, var(--cream-soft) 0%, var(--cream-deep) 100%);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    cursor: pointer;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .any-card:hover { border-color: var(--sage-deep); box-shadow: var(--shadow-soft); }
+  .any-card.selected { border-color: var(--sage-deep); background: #EFE9DC; }
+  .any-mark {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--sage-deep);
+    color: var(--cream);
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+  }
+  .any-card h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 360;
+  }
+  .any-card .any-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .therapist-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    padding: 22px;
+    cursor: pointer;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .3s ease;
+    text-align: left;
+  }
+  .therapist-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--sage-light);
+  }
+  .therapist-card.selected {
+    border-color: var(--sage-deep);
+    background: #EFE9DC;
+  }
+  .avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+  }
+  .avatar .initials {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    color: rgba(255,255,255,0.92);
+    font-weight: 380;
+    letter-spacing: -0.02em;
+  }
+  .therapist-card h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 360;
+    margin-bottom: 2px;
+  }
+  .therapist-specialty {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .therapist-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  .therapist-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--line); }
+  .star-row { display: inline-flex; align-items: center; gap: 4px; color: var(--clay); }
+  .star-row svg { width: 12px; height: 12px; }
+
+  /* ===== Step 3: Date & Time ===== */
+  .datetime-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .calendar {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 22px;
+    padding: 28px;
+  }
+  .cal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .cal-head h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 360;
+  }
+  .cal-nav { display: flex; gap: 8px; }
+  .cal-nav button {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .cal-nav button:hover { background: var(--cream-deep); border-color: var(--ink-soft); }
+  .cal-nav button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-dow {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 0 14px;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 380;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+    color: var(--ink);
+    user-select: none;
+  }
+  .cal-cell.empty { cursor: default; }
+  .cal-cell.past { color: var(--line); cursor: not-allowed; }
+  .cal-cell:not(.empty):not(.past):not(.selected):hover {
+    background: var(--cream-deep);
+  }
+  .cal-cell.today {
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .cal-cell.selected {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .timeslots {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 22px;
+    padding: 28px;
+  }
+  .timeslots h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 360;
+    margin-bottom: 4px;
+  }
+  .timeslots .ts-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .ts-section { margin-bottom: 22px; }
+  .ts-section h5 {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .ts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .ts {
+    padding: 10px 4px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    transition: all .2s ease;
+  }
+  .ts:hover { border-color: var(--ink); }
+  .ts.booked {
+    color: var(--line);
+    text-decoration: line-through;
+    cursor: not-allowed;
+    background: transparent;
+  }
+  .ts.booked:hover { border-color: var(--line); }
+  .ts.selected {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .ts-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-faint);
+    font-size: 14px;
+  }
+
+  /* ===== Step 4: Details ===== */
+  .details-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .form {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 22px;
+    padding: 32px;
+  }
+  .form h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 360;
+    margin-bottom: 6px;
+  }
+  .form-sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 26px; }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .field input, .field textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color .2s ease, background .2s ease;
+    outline: none;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--ink);
+    background: var(--cream-soft);
+  }
+  .field textarea { resize: vertical; min-height: 90px; font-family: 'DM Sans', sans-serif; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pref-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  .pref-chip {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s ease;
+    color: var(--ink-soft);
+  }
+  .pref-chip:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .pref-chip.active {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  /* Summary card */
+  .summary {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 22px;
+    padding: 32px;
+    position: sticky;
+    top: 100px;
+  }
+  .summary .eyebrow { color: rgba(245,239,230,0.65); }
+  .summary h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 360;
+    margin: 12px 0 24px;
+    color: var(--cream);
+  }
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(245,239,230,0.12);
+    font-size: 14px;
+  }
+  .sum-row:last-of-type { border-bottom: none; }
+  .sum-row .sum-label {
+    color: rgba(245,239,230,0.6);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .sum-row .sum-val {
+    text-align: right;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--cream);
+    max-width: 60%;
+  }
+  .sum-total {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(245,239,230,0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .sum-total .lbl { font-size: 13px; color: rgba(245,239,230,0.7); }
+  .sum-total .amt {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    color: var(--cream);
+  }
+  .summary-policy {
+    margin-top: 18px;
+    font-size: 12px;
+    color: rgba(245,239,230,0.55);
+    line-height: 1.6;
+  }
+
+  /* Nav buttons */
+  .step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .btn-back {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    transition: color .2s ease, gap .2s ease;
+  }
+  .btn-back:hover { color: var(--ink); gap: 12px; }
+  .btn-next {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background .25s ease, transform .2s ease;
+  }
+  .btn-next:hover:not(:disabled) {
+    background: var(--sage-deep);
+    transform: translateY(-1px);
+  }
+  .btn-next:disabled {
+    background: var(--line);
+    color: var(--ink-faint);
+    cursor: not-allowed;
+  }
+
+  /* ===== Confirmation ===== */
+  .confirm-wrap {
+    padding: 80px 0;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .confirm-mark {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: var(--sage-deep);
+    color: var(--cream);
+    margin: 0 auto 32px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    animation: scaleIn .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .confirm-mark::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px dashed var(--sage-light);
+    animation: spin 12s linear infinite;
+  }
+  @keyframes scaleIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .confirm-wrap h2 {
+    font-size: clamp(40px, 6vw, 64px);
+    margin-bottom: 18px;
+  }
+  .confirm-wrap p.lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+  }
+  .confirm-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 22px;
+    padding: 36px;
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .confirm-card .ref {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 22px;
+  }
+  .ref-num {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .confirm-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 32px;
+  }
+  .confirm-grid .item label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .confirm-grid .item .val {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 360;
+    color: var(--ink);
+  }
+  .confirm-actions { display: flex; gap: 12px; justify-content: center; }
+
+  /* ===== My Bookings ===== */
+  .bookings-head {
+    padding: 56px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 36px;
+  }
+  .bookings-head h2 {
+    font-size: clamp(36px, 5vw, 56px);
+  }
+  .booking-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line-soft);
+    align-items: center;
+  }
+  .booking-date-tag {
+    width: 80px;
+    text-align: center;
+    padding: 14px 8px;
+    background: var(--cream-soft);
+    border-radius: 12px;
+    border: 1px solid var(--line-soft);
+  }
+  .booking-date-tag .month {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 500;
+  }
+  .booking-date-tag .day {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 380;
+    line-height: 1;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+  .booking-info h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 360;
+    margin-bottom: 4px;
+  }
+  .booking-info .meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .booking-status {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .status-upcoming { background: rgba(107,122,94,0.12); color: var(--sage-deep); }
+  .status-past { background: var(--cream-deep); color: var(--ink-soft); }
+
+  .empty-state {
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+  .empty-state h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 360;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    margin-top: 80px;
+    padding: 64px 0 32px;
+  }
+  .foot-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(245,239,230,0.12);
+  }
+  .foot-grid h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 360;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .foot-grid p, .foot-grid a {
+    color: rgba(245,239,230,0.65);
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+    transition: color .2s ease;
+  }
+  .foot-grid a:hover { color: var(--cream); }
+  .foot-grid h5 {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .foot-bottom {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(245,239,230,0.5);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { max-width: 480px; }
+    .categories-preview { grid-template-columns: 1fr; gap: 24px; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-layout { grid-template-columns: 1fr; gap: 32px; }
+    .filter-side { position: static; }
+    .filter-list { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+    .filter-list li { border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 14px; }
+    .filter-list li.active::before { display: none; }
+    .filter-list li.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .therapist-grid { grid-template-columns: repeat(2, 1fr); }
+    .datetime-layout, .details-layout { grid-template-columns: 1fr; gap: 28px; }
+    .summary { position: static; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .booking-top, .bookings-head { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 640px) {
+    .header-inner { padding: 16px 20px; gap: 12px; }
+    nav { display: none; }
+    main { padding: 0 20px 64px; }
+    .hero { padding: 48px 0 40px; }
+    .service-grid { grid-template-columns: 1fr; }
+    .therapist-grid { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .ts-grid { grid-template-columns: repeat(3, 1fr); }
+    .row-2 { grid-template-columns: 1fr; }
+    .confirm-grid { grid-template-columns: 1fr; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .step-nav { flex-direction: column-reverse; gap: 16px; align-items: stretch; }
+    .btn-next { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand" onclick="goHome()">
+      <div class="brand-mark"></div>
+      <div class="brand-name">Veridian</div>
+    </div>
+    <nav>
+      <a id="nav-book" onclick="startBooking()" class="active">Book a visit</a>
+      <a id="nav-my" onclick="showView('my-bookings'); setNav('my')">My visits</a>
+      <a onclick="alert('Veridian — A sanctuary of considered care, est. 2019. We are a small team committed to slowness, ritual, and the well-being of every guest who enters our doors.')">About</a>
+      <a onclick="alert('Open daily, 9:00 — 19:00\\n42 Lavender Court, Lower Garden\\n+91 80 4567 8910')">Visit</a>
+    </nav>
+    <button class="header-cta" onclick="startBooking()">Reserve</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========= LANDING ========= -->
+  <section id="view-landing" class="view active">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">A salon &amp; spa · est. 2019</div>
+        <h1 class="display">A quiet hour,<br>set aside <em>for you.</em></h1>
+        <p class="lead">Considered care from a small team of specialists — hair, skin, body, and the small rituals between. Reserve a single appointment or compose a longer afternoon.</p>
+        <div class="hero-cta-row">
+          <button class="btn-primary" onclick="startBooking()">
+            Begin reservation
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-ghost" onclick="document.getElementById('cats').scrollIntoView({behavior:'smooth'})">Browse services</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="botanical" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke="rgba(245,239,230,0.5)" stroke-width="1">
+            <path d="M200 60 Q 180 140, 200 220 Q 220 300, 200 400"/>
+            <path d="M200 100 Q 150 130, 130 170"/>
+            <path d="M200 100 Q 250 130, 270 170"/>
+            <path d="M200 160 Q 140 200, 110 250"/>
+            <path d="M200 160 Q 260 200, 290 250"/>
+            <path d="M200 230 Q 130 280, 95 340"/>
+            <path d="M200 230 Q 270 280, 305 340"/>
+          </g>
+          <g fill="rgba(245,239,230,0.35)">
+            <ellipse cx="130" cy="170" rx="22" ry="9" transform="rotate(-30 130 170)"/>
+            <ellipse cx="270" cy="170" rx="22" ry="9" transform="rotate(30 270 170)"/>
+            <ellipse cx="110" cy="250" rx="26" ry="10" transform="rotate(-35 110 250)"/>
+            <ellipse cx="290" cy="250" rx="26" ry="10" transform="rotate(35 290 250)"/>
+            <ellipse cx="95" cy="340" rx="30" ry="12" transform="rotate(-40 95 340)"/>
+            <ellipse cx="305" cy="340" rx="30" ry="12" transform="rotate(40 305 340)"/>
+          </g>
+        </svg>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num serif-num">12</div>
+            <div class="lbl">Specialists</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num serif-num">40+</div>
+            <div class="lbl">Treatments</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num serif-num">4.9</div>
+            <div class="lbl">Guest rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="categories-preview" id="cats">
+      <h2 class="display">An offering<br>of small <em>rituals.</em></h2>
+      <div class="cat-grid">
+        <div class="cat-tile" onclick="startBooking('Hair')">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M16 4 C 10 8, 8 14, 10 22 M16 4 C 22 8, 24 14, 22 22 M10 22 Q 16 26, 22 22 M16 4 V 14"/>
+          </svg>
+          <div>
+            <div class="cat-count">12 treatments</div>
+            <div class="cat-name">Hair</div>
+          </div>
+        </div>
+        <div class="cat-tile" onclick="startBooking('Face')">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+            <ellipse cx="16" cy="16" rx="9" ry="11"/>
+            <circle cx="13" cy="14" r="0.8" fill="currentColor"/>
+            <circle cx="19" cy="14" r="0.8" fill="currentColor"/>
+            <path d="M13 20 Q 16 22, 19 20"/>
+          </svg>
+          <div>
+            <div class="cat-count">9 treatments</div>
+            <div class="cat-name">Face</div>
+          </div>
+        </div>
+        <div class="cat-tile" onclick="startBooking('Body')">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M6 16 Q 12 8, 16 16 Q 20 24, 26 16"/>
+            <path d="M6 20 Q 12 14, 16 20 Q 20 26, 26 20" opacity="0.5"/>
+          </svg>
+          <div>
+            <div class="cat-count">11 treatments</div>
+            <div class="cat-name">Body</div>
+          </div>
+        </div>
+        <div class="cat-tile" onclick="startBooking('Hands')">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 26 V 14 Q 12 11, 14 11 Q 16 11, 16 14 V 8 Q 16 5, 18 5 Q 20 5, 20 8 V 14 M20 11 Q 22 11, 22 13 V 18 M22 14 Q 24 14, 24 16 V 20 Q 24 26, 18 26 H 12"/>
+          </svg>
+          <div>
+            <div class="cat-count">8 treatments</div>
+            <div class="cat-name">Hands &amp; Feet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= BOOKING FLOW ========= -->
+  <section id="view-booking" class="view">
+    <div class="booking-top">
+      <div class="booking-top-text">
+        <h2 id="booking-title" class="display">Choose your <em>experience</em></h2>
+        <p id="booking-sub">Select a treatment to begin. You can adjust or remove it at any time.</p>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <!-- Step 1: Services -->
+    <div class="step-pane" data-step="1">
+      <div class="services-layout">
+        <aside class="filter-side">
+          <h3>Categories</h3>
+          <ul class="filter-list" id="filter-list"></ul>
+        </aside>
+        <div class="service-grid" id="service-grid"></div>
+      </div>
+    </div>
+
+    <!-- Step 2: Therapist -->
+    <div class="step-pane" data-step="2" style="display:none">
+      <div class="therapist-grid" id="therapist-grid"></div>
+    </div>
+
+    <!-- Step 3: Date & Time -->
+    <div class="step-pane" data-step="3" style="display:none">
+      <div class="datetime-layout">
+        <div class="calendar" id="calendar"></div>
+        <div class="timeslots" id="timeslots"></div>
+      </div>
+    </div>
+
+    <!-- Step 4: Details -->
+    <div class="step-pane" data-step="4" style="display:none">
+      <div class="details-layout">
+        <div class="form">
+          <h4>Your details</h4>
+          <div class="form-sub">We'll send a quiet reminder the day before your visit.</div>
+          <div class="row-2">
+            <div class="field">
+              <label>First name</label>
+              <input type="text" id="f-first" placeholder="Anaya" />
+            </div>
+            <div class="field">
+              <label>Last name</label>
+              <input type="text" id="f-last" placeholder="Mehta" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="f-email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" id="f-phone" placeholder="+91 98765 43210" />
+          </div>
+          <div class="field">
+            <label>Special requests (optional)</label>
+            <textarea id="f-notes" placeholder="Allergies, preferences, the kind of music you'd like…"></textarea>
+          </div>
+          <div class="field">
+            <label>Reminders</label>
+            <div class="pref-row" id="pref-row">
+              <button class="pref-chip active" data-pref="email">Email</button>
+              <button class="pref-chip" data-pref="sms">SMS</button>
+              <button class="pref-chip" data-pref="whatsapp">WhatsApp</button>
+              <button class="pref-chip" data-pref="none">No reminder</button>
+            </div>
+          </div>
+        </div>
+        <div class="summary" id="summary-card"></div>
+      </div>
+    </div>
+
+    <!-- Step 5: Confirmation -->
+    <div class="step-pane" data-step="5" style="display:none">
+      <div class="confirm-wrap" id="confirm-wrap"></div>
+    </div>
+
+    <div class="step-nav" id="step-nav">
+      <button class="btn-back" onclick="prevStep()" id="btn-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
+        Back
+      </button>
+      <button class="btn-next" onclick="nextStep()" id="btn-next" disabled>
+        Continue
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ========= MY BOOKINGS ========= -->
+  <section id="view-my-bookings" class="view">
+    <div class="bookings-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:14px">Reservation log</div>
+        <h2 class="display">Your visits<br>with <em>Veridian</em></h2>
+      </div>
+      <button class="btn-primary" onclick="startBooking()">
+        New reservation
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+    <div id="bookings-list"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-grid">
+      <div>
+        <h4 class="display">Find us in the<br>lower garden.</h4>
+        <p style="color:rgba(245,239,230,0.65); max-width:340px; margin-top:18px">A small studio with twelve chairs, four treatment rooms, a courtyard, and a kettle that is rarely cold.</p>
+      </div>
+      <div>
+        <h5>Hours</h5>
+        <p>Mon – Sat<br>9:00 — 19:00</p>
+        <p style="margin-top:10px">Sun<br>10:00 — 17:00</p>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <p>42 Lavender Court</p>
+        <p>Lower Garden</p>
+        <p>+91 80 4567 8910</p>
+      </div>
+      <div>
+        <h5>Follow</h5>
+        <a>Journal</a>
+        <a>Instagram</a>
+        <a>Newsletter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Veridian Studio. All rights reserved.</div>
+      <div>Crafted with care</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========= DATA =========
+  const services = [
+    // Hair
+    { id:'h1', cat:'Hair', name:'Signature Cut & Style', price:145, duration:75, blurb:'A consultation followed by a tailored cut, wash, and finish using small-batch products.' },
+    { id:'h2', cat:'Hair', name:'Bespoke Color', price:285, duration:165, blurb:'Single-process, balayage, or correction — composed in collaboration with your colorist.' },
+    { id:'h3', cat:'Hair', name:'Deep Restoration', price:115, duration:60, blurb:'A botanical mask, scalp massage, and finishing rinse for hair that has been quietly tired.' },
+    { id:'h4', cat:'Hair', name:'Bridal & Occasion', price:325, duration:120, blurb:'Hair and makeup composed together for an afternoon you would like to remember well.' },
+    // Face
+    { id:'f1', cat:'Face', name:'Veridian Facial', price:185, duration:75, blurb:'Our signature seventy-five minutes — cleansed, steamed, manually extracted, and softened.' },
+    { id:'f2', cat:'Face', name:'Deep Hydration', price:225, duration:90, blurb:'A layered ritual for skin that needs returning — masks, oils, and quiet hands.' },
+    { id:'f3', cat:'Face', name:'Renewal Peel', price:265, duration:60, blurb:'Gentle resurfacing with botanical acids, finished with calming compresses.' },
+    { id:'f4', cat:'Face', name:'Men\u2019s Grooming', price:135, duration:60, blurb:'Cleanse, exfoliate, shave, and restore — a careful hour for the busy and the unbothered.' },
+    // Body
+    { id:'b1', cat:'Body', name:'Slow Massage', price:175, duration:75, blurb:'Long, unhurried strokes in warm oil. The therapist will not speak unless you would like them to.' },
+    { id:'b2', cat:'Body', name:'Deep Tissue', price:195, duration:75, blurb:'Targeted, firm work for shoulders that carry too much and hips that hold too long.' },
+    { id:'b3', cat:'Body', name:'Warm Stone', price:235, duration:90, blurb:'Heated basalt stones placed along the spine, then drawn slowly across tired ground.' },
+    { id:'b4', cat:'Body', name:'Couple\u2019s Sanctuary', price:425, duration:90, blurb:'Two therapists, one room, ninety minutes — and afterwards, a small pot of tea.' },
+    // Hands & Feet
+    { id:'n1', cat:'Hands', name:'Considered Manicure', price:75, duration:50, blurb:'Filed, shaped, cuticles softened, and finished in the polish of your choosing.' },
+    { id:'n2', cat:'Hands', name:'Restorative Pedicure', price:95, duration:65, blurb:'A warm soak, exfoliation, prolonged massage, and finishing polish.' },
+    { id:'n3', cat:'Hands', name:'Hand Renewal', price:55, duration:30, blurb:'A short ritual for hands that have been doing too much, with paraffin and oil.' },
+  ];
+
+  const therapists = [
+    { id:'t1', name:'Anaya Rao', specialty:'Senior Stylist', years:9, rating:4.9, bg:'#7A8471', good:['Hair'] },
+    { id:'t2', name:'Mira Joshi', specialty:'Color Specialist', years:7, rating:4.9, bg:'#A87454', good:['Hair'] },
+    { id:'t3', name:'Kavya Sharma', specialty:'Aesthetician', years:11, rating:5.0, bg:'#6B7A5E', good:['Face'] },
+    { id:'t4', name:'Devika Iyer', specialty:'Facialist & Educator', years:8, rating:4.8, bg:'#B8654A', good:['Face'] },
+    { id:'t5', name:'Ravi Menon', specialty:'Bodywork Therapist', years:12, rating:4.9, bg:'#4A5645', good:['Body'] },
+    { id:'t6', name:'Priya Nair', specialty:'Massage Therapist', years:6, rating:4.8, bg:'#8A9277', good:['Body'] },
+    { id:'t7', name:'Sana Khan', specialty:'Nail Artist', years:5, rating:4.9, bg:'#C5C9B2', good:['Hands'] },
+    { id:'t8', name:'Layla Pereira', specialty:'Lead Stylist', years:14, rating:5.0, bg:'#5A6058', good:['Hair','Face'] },
+    { id:'t9', name:'Tara Bose', specialty:'Holistic Practitioner', years:10, rating:4.9, bg:'#9A4F38', good:['Body','Face'] },
+  ];
+
+  const categories = [
+    { key:'All', label:'All treatments' },
+    { key:'Hair', label:'Hair' },
+    { key:'Face', label:'Face' },
+    { key:'Body', label:'Body' },
+    { key:'Hands', label:'Hands & Feet' }
+  ];
+
+  // ========= STATE =========
+  let state = {
+    step: 1,
+    selectedCategory: 'All',
+    service: null,
+    therapist: null,   // null = any
+    therapistChosen: false,
+    date: null,        // Date object
+    time: null,        // '10:00'
+    customer: { first:'', last:'', email:'', phone:'', notes:'', reminder:'email' },
+  };
+
+  let bookings = [];
+  try {
+    const saved = localStorage.getItem('veridian_bookings');
+    if (saved) bookings = JSON.parse(saved);
+  } catch (e) {}
+
+  function saveBookings() {
+    try { localStorage.setItem('veridian_bookings', JSON.stringify(bookings)); } catch(e) {}
+  }
+
+  // ========= NAVIGATION =========
+  function showView(id) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function setNav(which) {
+    document.getElementById('nav-book').classList.toggle('active', which === 'book');
+    document.getElementById('nav-my').classList.toggle('active', which === 'my');
+  }
+  function goHome() {
+    state.step = 1;
+    showView('landing');
+    setNav('book');
+  }
+  function startBooking(presetCat) {
+    state = {
+      step: 1, selectedCategory: presetCat || 'All',
+      service: null, therapist: null, therapistChosen: false,
+      date: null, time: null,
+      customer: { first:'', last:'', email:'', phone:'', notes:'', reminder:'email' }
+    };
+    showView('booking');
+    setNav('book');
+    renderBooking();
+  }
+
+  // ========= BOOKING RENDER =========
+  function renderBooking() {
+    renderSteps();
+    renderStepTitle();
+    document.querySelectorAll('.step-pane').forEach(p => {
+      p.style.display = (+p.dataset.step === state.step) ? '' : 'none';
+    });
+
+    if (state.step === 1) renderServices();
+    if (state.step === 2) renderTherapists();
+    if (state.step === 3) renderDateTime();
+    if (state.step === 4) renderSummary();
+    if (state.step === 5) renderConfirmation();
+
+    renderNav();
+  }
+
+  function renderSteps() {
+    const labels = ['Service','Specialist','Date & time','Details','Confirm'];
+    const wrap = document.getElementById('steps');
+    wrap.innerHTML = '';
+    labels.forEach((_, i) => {
+      const n = i + 1;
+      const dot = document.createElement('div');
+      dot.className = 'step-dot' + (n < state.step ? ' done' : n === state.step ? ' current' : '');
+      dot.textContent = n;
+      wrap.appendChild(dot);
+      if (i < labels.length - 1) {
+        const line = document.createElement('div');
+        line.className = 'step-line' + (n < state.step ? ' done' : '');
+        wrap.appendChild(line);
+      }
+    });
+  }
+
+  function renderStepTitle() {
+    const titles = {
+      1: ['Choose your <em>experience</em>', 'Select a treatment to begin. You can adjust or remove it at any time.'],
+      2: ['Choose a <em>specialist</em>', 'Pick someone whose hands you would like, or leave it to us.'],
+      3: ['Choose a <em>moment</em>', 'Select a day and a time that feels right.'],
+      4: ['Just the <em>essentials</em>', 'We hold your details close. Nothing leaves these walls.'],
+      5: ['', '']
+    };
+    document.getElementById('booking-title').innerHTML = titles[state.step][0];
+    document.getElementById('booking-sub').textContent = titles[state.step][1];
+    document.getElementById('booking-title').style.display = state.step === 5 ? 'none' : '';
+    document.getElementById('booking-sub').style.display = state.step === 5 ? 'none' : '';
+    document.querySelector('.booking-top').style.display = state.step === 5 ? 'none' : '';
+  }
+
+  function renderNav() {
+    const nav = document.getElementById('step-nav');
+    const next = document.getElementById('btn-next');
+    const back = document.getElementById('btn-back');
+    if (state.step === 5) { nav.style.display = 'none'; return; }
+    nav.style.display = '';
+    back.style.visibility = state.step === 1 ? 'hidden' : 'visible';
+    next.textContent = '';
+    next.innerHTML = (state.step === 4 ? 'Confirm reservation' : 'Continue') +
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    let ok = false;
+    if (state.step === 1) ok = !!state.service;
+    if (state.step === 2) ok = state.therapistChosen;
+    if (state.step === 3) ok = !!state.date && !!state.time;
+    if (state.step === 4) {
+      const c = state.customer;
+      ok = c.first.trim() && c.last.trim() && /^.+@.+\..+$/.test(c.email) && c.phone.trim().length >= 6;
+    }
+    next.disabled = !ok;
+  }
+
+  function prevStep() { if (state.step > 1) { state.step--; renderBooking(); } }
+  function nextStep() {
+    if (state.step < 4) { state.step++; renderBooking(); return; }
+    if (state.step === 4) { finalizeBooking(); state.step = 5; renderBooking(); }
+  }
+
+  // ----- Step 1: Services -----
+  function renderServices() {
+    const list = document.getElementById('filter-list');
+    list.innerHTML = '';
+    categories.forEach(c => {
+      const li = document.createElement('li');
+      const count = c.key === 'All' ? services.length : services.filter(s => s.cat === c.key).length;
+      li.className = state.selectedCategory === c.key ? 'active' : '';
+      li.innerHTML = `<span>${c.label}</span><span class="count">${count}</span>`;
+      li.onclick = () => { state.selectedCategory = c.key; renderServices(); };
+      list.appendChild(li);
+    });
+
+    const grid = document.getElementById('service-grid');
+    grid.innerHTML = '';
+    const filtered = state.selectedCategory === 'All' ? services : services.filter(s => s.cat === state.selectedCategory);
+    filtered.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'service-card' + (state.service && state.service.id === s.id ? ' selected' : '');
+      el.innerHTML = `
+        ${serviceIcon(s.cat)}
+        <div class="svc-cat">${categoryLabel(s.cat)}</div>
+        <h4>${s.name}</h4>
+        <p>${s.blurb}</p>
+        <div class="svc-meta">
+          <div class="duration">${formatDuration(s.duration)}</div>
+          <div class="price">$${s.price}</div>
+        </div>
+      `;
+      el.onclick = () => {
+        state.service = s;
+        // reset later steps when service changes
+        state.therapist = null; state.therapistChosen = false;
+        state.date = null; state.time = null;
+        renderServices();
+        renderNav();
+      };
+      grid.appendChild(el);
+    });
+  }
+
+  function categoryLabel(cat) {
+    return cat === 'Hands' ? 'Hands & Feet' : cat;
+  }
+  function serviceIcon(cat) {
+    const paths = {
+      Hair: '<path d="M16 4 C 10 8, 8 14, 10 22 M16 4 C 22 8, 24 14, 22 22 M10 22 Q 16 26, 22 22"/>',
+      Face: '<ellipse cx="16" cy="16" rx="8" ry="10"/><circle cx="13" cy="14" r="0.7" fill="currentColor"/><circle cx="19" cy="14" r="0.7" fill="currentColor"/><path d="M13 19 Q 16 21, 19 19"/>',
+      Body: '<path d="M6 16 Q 12 8, 16 16 Q 20 24, 26 16"/>',
+      Hands: '<path d="M12 26 V 14 Q 12 11, 14 11 Q 16 11, 16 14 V 8 Q 16 5, 18 5 Q 20 5, 20 8 V 14 M20 11 Q 22 11, 22 13 V 18 M22 14 Q 24 14, 24 16 V 20 Q 24 26, 18 26 H 12"/>'
+    };
+    return `<svg class="svc-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3">${paths[cat]}</svg>`;
+  }
+  function formatDuration(m) {
+    if (m < 60) return m + ' min';
+    const h = Math.floor(m/60); const rem = m % 60;
+    return rem === 0 ? h + ' hr' : h + ' hr ' + rem + ' min';
+  }
+
+  // ----- Step 2: Therapists -----
+  function renderTherapists() {
+    const grid = document.getElementById('therapist-grid');
+    grid.innerHTML = '';
+
+    // Any card
+    const any = document.createElement('div');
+    any.className = 'any-card' + (state.therapistChosen && !state.therapist ? ' selected' : '');
+    any.innerHTML = `
+      <div class="any-mark">✦</div>
+      <div>
+        <h5>Anyone available</h5>
+        <div class="any-sub">Let us match you with the right specialist for the time you want.</div>
+      </div>
+    `;
+    any.onclick = () => { state.therapist = null; state.therapistChosen = true; renderTherapists(); renderNav(); };
+    grid.appendChild(any);
+
+    // Filter by service category match
+    const relevant = state.service
+      ? therapists.filter(t => t.good.includes(state.service.cat))
+      : therapists;
+
+    relevant.forEach(t => {
+      const el = document.createElement('div');
+      const isSel = state.therapist && state.therapist.id === t.id;
+      el.className = 'therapist-card' + (isSel ? ' selected' : '');
+      const initials = t.name.split(' ').map(n => n[0]).join('').slice(0,2);
+      el.innerHTML = `
+        <div class="avatar" style="background: linear-gradient(135deg, ${t.bg} 0%, ${shade(t.bg, -25)} 100%)">
+          <div class="initials">${initials}</div>
+          ${avatarPattern()}
+        </div>
+        <h5>${t.name}</h5>
+        <div class="therapist-specialty">${t.specialty}</div>
+        <div class="therapist-meta">
+          <span class="star-row">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            ${t.rating}
+          </span>
+          <span class="dot"></span>
+          <span>${t.years} years</span>
+        </div>
+      `;
+      el.onclick = () => { state.therapist = t; state.therapistChosen = true; renderTherapists(); renderNav(); };
+      grid.appendChild(el);
+    });
+  }
+
+  function avatarPattern() {
+    return `<svg style="position:absolute;inset:0;opacity:0.18" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+      <path d="M0 70 Q 25 60, 50 70 T 100 70" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" fill="none"/>
+      <path d="M0 80 Q 25 70, 50 80 T 100 80" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" fill="none"/>
+      <circle cx="80" cy="20" r="12" fill="rgba(255,255,255,0.08)"/>
+    </svg>`;
+  }
+  function shade(hex, percent) {
+    const num = parseInt(hex.replace('#',''), 16);
+    let r = (num >> 16) + percent;
+    let g = ((num >> 8) & 0x00FF) + percent;
+    let b = (num & 0x0000FF) + percent;
+    r = Math.max(Math.min(255, r), 0);
+    g = Math.max(Math.min(255, g), 0);
+    b = Math.max(Math.min(255, b), 0);
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6,'0');
+  }
+
+  // ----- Step 3: Date & Time -----
+  let calMonth = new Date();
+  calMonth.setDate(1);
+
+  function renderDateTime() {
+    renderCalendar();
+    renderTimeslots();
+  }
+
+  function renderCalendar() {
+    const wrap = document.getElementById('calendar');
+    const monthName = calMonth.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    const first = new Date(calMonth);
+    const startDay = first.getDay(); // 0 = Sun
+    const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
+
+    const isCurrentMonth = (calMonth.getFullYear() === today.getFullYear() && calMonth.getMonth() === today.getMonth());
+    const isPrevDisabled = isCurrentMonth;
+
+    let html = `
+      <div class="cal-head">
+        <h4>${monthName}</h4>
+        <div class="cal-nav">
+          <button onclick="navMonth(-1)" ${isPrevDisabled ? 'disabled' : ''}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button onclick="navMonth(1)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        ${['S','M','T','W','T','F','S'].map(d => `<div class="cal-dow">${d}</div>`).join('')}
+    `;
+
+    for (let i = 0; i < startDay; i++) html += `<div class="cal-cell empty"></div>`;
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(calMonth.getFullYear(), calMonth.getMonth(), d);
+      const isPast = date < today;
+      const isToday = date.getTime() === today.getTime();
+      const isSel = state.date && date.toDateString() === state.date.toDateString();
+      let cls = 'cal-cell';
+      if (isPast) cls += ' past';
+      if (isToday) cls += ' today';
+      if (isSel) cls += ' selected';
+      const onclick = isPast ? '' : `onclick="selectDate(${date.getTime()})"`;
+      html += `<div class="${cls}" ${onclick}>${d}</div>`;
+    }
+
+    html += `</div>`;
+    wrap.innerHTML = html;
+  }
+
+  function navMonth(delta) {
+    calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + delta, 1);
+    renderCalendar();
+  }
+
+  function selectDate(ts) {
+    state.date = new Date(ts);
+    state.time = null;
+    renderCalendar();
+    renderTimeslots();
+    renderNav();
+  }
+
+  function renderTimeslots() {
+    const wrap = document.getElementById('timeslots');
+    if (!state.date) {
+      wrap.innerHTML = `
+        <h4>Available times</h4>
+        <div class="ts-sub">Choose a date to see availability.</div>
+        <div class="ts-empty">No date selected.</div>
+      `;
+      return;
+    }
+    const dateStr = state.date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+    const therapistStr = state.therapist ? state.therapist.name : 'first available specialist';
+    const slots = generateSlots(state.date);
+    const morning = slots.filter(s => s.hour < 12);
+    const afternoon = slots.filter(s => s.hour >= 12 && s.hour < 17);
+    const evening = slots.filter(s => s.hour >= 17);
+
+    wrap.innerHTML = `
+      <h4>${dateStr}</h4>
+      <div class="ts-sub">With your ${therapistStr}. All times in your local time.</div>
+      ${renderSection('Morning', morning)}
+      ${renderSection('Afternoon', afternoon)}
+      ${renderSection('Evening', evening)}
+    `;
+  }
+  function renderSection(label, list) {
+    if (list.length === 0) return '';
+    return `
+      <div class="ts-section">
+        <h5>${label}</h5>
+        <div class="ts-grid">
+          ${list.map(s => `
+            <button class="ts ${s.booked ? 'booked' : ''} ${state.time === s.time ? 'selected' : ''}"
+              ${s.booked ? 'disabled' : `onclick="selectTime('${s.time}')"`}>
+              ${s.display}
+            </button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  function selectTime(t) { state.time = t; renderTimeslots(); renderNav(); }
+
+  function generateSlots(date) {
+    // Deterministic "booked" slots based on date
+    const seed = date.getDate() + date.getMonth() * 31;
+    const slots = [];
+    for (let h = 9; h < 19; h++) {
+      for (let m of [0, 30]) {
+        const time24 = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+        const display = formatTime12(h, m);
+        // deterministic booking pattern
+        const idx = (h * 2 + (m === 30 ? 1 : 0));
+        const booked = ((seed * 7 + idx * 11) % 9) < 3;
+        slots.push({ hour: h, min: m, time: time24, display, booked });
+      }
+    }
+    return slots;
+  }
+  function formatTime12(h, m) {
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hh = h % 12 === 0 ? 12 : h % 12;
+    return `${hh}:${String(m).padStart(2,'0')} ${ampm}`;
+  }
+
+  // ----- Step 4: Details & Summary -----
+  function renderSummary() {
+    // wire form inputs to state
+    const inputs = ['first','last','email','phone','notes'];
+    inputs.forEach(k => {
+      const el = document.getElementById('f-' + k);
+      el.value = state.customer[k];
+      el.oninput = (e) => { state.customer[k] = e.target.value; renderNav(); renderSummaryCard(); };
+    });
+    document.querySelectorAll('#pref-row .pref-chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.pref === state.customer.reminder);
+      chip.onclick = () => {
+        state.customer.reminder = chip.dataset.pref;
+        document.querySelectorAll('#pref-row .pref-chip').forEach(c =>
+          c.classList.toggle('active', c.dataset.pref === state.customer.reminder));
+      };
+    });
+    renderSummaryCard();
+  }
+
+  function renderSummaryCard() {
+    const s = state.service;
+    const tName = state.therapist ? state.therapist.name : 'First available';
+    const dateStr = state.date ? state.date.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' }) : '—';
+    const timeStr = state.time ? formatTime12(+state.time.split(':')[0], +state.time.split(':')[1]) : '—';
+    document.getElementById('summary-card').innerHTML = `
+      <div class="eyebrow">Reservation summary</div>
+      <h4>${s.name}</h4>
+      <div class="sum-row"><span class="sum-label">Specialist</span><span class="sum-val">${tName}</span></div>
+      <div class="sum-row"><span class="sum-label">Date</span><span class="sum-val">${dateStr}</span></div>
+      <div class="sum-row"><span class="sum-label">Time</span><span class="sum-val">${timeStr}</span></div>
+      <div class="sum-row"><span class="sum-label">Duration</span><span class="sum-val">${formatDuration(s.duration)}</span></div>
+      <div class="sum-total">
+        <div class="lbl">Total · paid at studio</div>
+        <div class="amt">$${s.price}</div>
+      </div>
+      <div class="summary-policy">A small cancellation fee applies for changes made within 24 hours of your appointment. Otherwise — change anything, anytime.</div>
+    `;
+  }
+
+  // ----- Finalize -----
+  function finalizeBooking() {
+    const ref = 'VR-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Date.now().toString(36).slice(-4).toUpperCase();
+    const booking = {
+      ref,
+      service: state.service,
+      therapistName: state.therapist ? state.therapist.name : 'First available',
+      date: state.date.toISOString(),
+      time: state.time,
+      customer: { ...state.customer },
+      createdAt: Date.now()
+    };
+    bookings.unshift(booking);
+    saveBookings();
+    state.lastBooking = booking;
+  }
+
+  function renderConfirmation() {
+    const b = state.lastBooking;
+    const dateStr = new Date(b.date).toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+    const timeStr = formatTime12(+b.time.split(':')[0], +b.time.split(':')[1]);
+    document.getElementById('confirm-wrap').innerHTML = `
+      <div class="confirm-mark">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M5 12l5 5L20 7"/>
+        </svg>
+      </div>
+      <h2 class="display">Reserved with <em>care.</em></h2>
+      <p class="lead">A confirmation has been sent to ${b.customer.email}. We look forward to welcoming you.</p>
+      <div class="confirm-card">
+        <div class="ref">
+          <div>
+            <div class="eyebrow">Reservation</div>
+            <div class="ref-num" style="margin-top:6px">${b.ref}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="eyebrow">Booked for</div>
+            <div style="font-family:'Fraunces',serif; font-size:20px; margin-top:6px">${b.customer.first} ${b.customer.last}</div>
+          </div>
+        </div>
+        <div class="confirm-grid">
+          <div class="item"><label>Treatment</label><div class="val">${b.service.name}</div></div>
+          <div class="item"><label>Specialist</label><div class="val">${b.therapistName}</div></div>
+          <div class="item"><label>Date</label><div class="val">${dateStr}</div></div>
+          <div class="item"><label>Time</label><div class="val">${timeStr}</div></div>
+          <div class="item"><label>Duration</label><div class="val">${formatDuration(b.service.duration)}</div></div>
+          <div class="item"><label>Total at studio</label><div class="val">$${b.service.price}</div></div>
+        </div>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn-primary" onclick="showView('my-bookings'); setNav('my'); renderMyBookings();">
+          View my visits
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-ghost" onclick="startBooking()">Book another</button>
+      </div>
+    `;
+  }
+
+  // ========= MY BOOKINGS =========
+  function renderMyBookings() {
+    const wrap = document.getElementById('bookings-list');
+    if (bookings.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty-state">
+          <h3>Nothing yet</h3>
+          <p style="margin-bottom:24px">Once you book a visit it will appear here, with quiet reminders ahead of time.</p>
+          <button class="btn-primary" onclick="startBooking()">Begin reservation
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>`;
+      return;
+    }
+    const now = new Date(); now.setHours(0,0,0,0);
+    wrap.innerHTML = bookings.map(b => {
+      const d = new Date(b.date);
+      const isUpcoming = d >= now;
+      const month = d.toLocaleString('en-US', { month:'short' });
+      const day = d.getDate();
+      const timeStr = formatTime12(+b.time.split(':')[0], +b.time.split(':')[1]);
+      return `
+        <div class="booking-item">
+          <div class="booking-date-tag">
+            <div class="month">${month}</div>
+            <div class="day">${day}</div>
+          </div>
+          <div class="booking-info">
+            <h5>${b.service.name}</h5>
+            <div class="meta">${timeStr} · ${b.therapistName} · ${formatDuration(b.service.duration)} · Ref ${b.ref}</div>
+          </div>
+          <div class="booking-status ${isUpcoming ? 'status-upcoming' : 'status-past'}">${isUpcoming ? 'Upcoming' : 'Completed'}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ========= INIT =========
+  showView('landing');
+</script>
+</body>
+</html>
